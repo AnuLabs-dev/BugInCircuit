@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ANU Electronics — Bug in Circuit IoT Kit — Complete Manual</title>
+<style>
+:root{--pr:#0a3d91;--prd:#072d6e;--ac:#e8b800;--li:#f0f6ff;--tx:#1a1a2e;--mu:#5a6a80;--bd:#d0dff5;--su:#2e7d32;--da:#c62828;--cb:#0d1117;--sh:0 4px 24px rgba(10,61,145,.10);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:#f4f7ff;color:var(--tx);line-height:1.7;}
+.sb{position:fixed;top:0;left:0;width:252px;height:100vh;background:var(--prd);overflow-y:auto;z-index:300;display:flex;flex-direction:column;box-shadow:4px 0 20px rgba(0,0,0,.22);}
+.sb-logo{padding:1rem 1.2rem;border-bottom:2px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:.6rem;}
+.sb-ico{background:var(--ac);border-radius:7px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+.sb-txt{color:#fff;font-size:.82rem;font-weight:700;line-height:1.3;}
+.sb-txt span{color:var(--ac);font-size:.68rem;font-weight:400;}
+.sb-nav{padding:.5rem 0;flex:1;}
+.np{border-bottom:1px solid rgba(255,255,255,.07);}
+.npt{display:flex;align-items:center;gap:.45rem;padding:.55rem 1rem;color:rgba(255,255,255,.9);font-size:.78rem;font-weight:700;cursor:pointer;text-decoration:none;transition:background .15s;}
+.npt:hover,.npt.active{background:rgba(255,255,255,.12);}
+.pn{background:var(--ac);color:var(--prd);border-radius:4px;padding:.04rem .35rem;font-size:.67rem;font-weight:900;flex-shrink:0;}
+.ns{display:none;padding:.1rem 0 .25rem 2.5rem;}
+.np.open .ns{display:block;}
+.ns a{display:block;color:rgba(255,255,255,.5);font-size:.73rem;padding:.18rem .38rem;text-decoration:none;border-radius:3px;transition:color .15s;}
+.ns a:hover{color:#fff;}
+.sb-ft{padding:.6rem 1.1rem;border-top:1px solid rgba(255,255,255,.1);font-size:.68rem;color:rgba(255,255,255,.28);text-align:center;}
+.main{margin-left:252px;min-height:100vh;}
+.ph{padding:2.6rem 2.2rem 1.8rem;border-bottom:2px solid var(--bd);}
+.ph.p1{background:linear-gradient(135deg,#1a237e,#283593,#1565C0);}
+.ph.p2{background:linear-gradient(135deg,#1b5e20,#2e7d32,#388e3c);}
+.ph.p3{background:linear-gradient(135deg,#bf360c,#d84315,#e64a19);}
+.ph.p4{background:linear-gradient(135deg,#880e4f,#ad1457,#c2185b);}
+.ph.p5{background:linear-gradient(135deg,#004d40,#00695c,#00796b);}
+.ph.p6{background:linear-gradient(135deg,#004d56,#006064,#00838f);}
+.ph.p7{background:linear-gradient(135deg,#3e2000,#7b4500,#c07800);}
+.pb{display:inline-block;background:rgba(232,184,0,.2);border:1px solid rgba(232,184,0,.5);color:var(--ac);border-radius:999px;padding:.2rem .85rem;font-size:.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:.65rem;}
+.ph h1{font-size:clamp(1.45rem,3vw,2.1rem);font-weight:900;color:#fff;margin-bottom:.35rem;}
+.ph h1 span{color:var(--ac);}
+.ph p{color:rgba(255,255,255,.78);font-size:.9rem;max-width:660px;}
+.sec{padding:1.8rem 2.2rem;background:#fff;border-bottom:2px solid var(--bd);}
+.sec.alt{background:var(--li);}
+.sh{font-size:1rem;font-weight:900;color:var(--pr);margin-bottom:.9rem;padding-bottom:.32rem;border-bottom:2.5px solid var(--bd);display:flex;align-items:center;gap:.4rem;}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:.9rem;margin-bottom:1.2rem;}
+.card{background:#fff;border-radius:11px;border:2px solid var(--bd);padding:1rem;box-shadow:var(--sh);}
+.ci{font-size:1.4rem;margin-bottom:.35rem;}
+.card h4{font-size:.83rem;font-weight:800;color:var(--pr);margin-bottom:.22rem;}
+.card p{font-size:.78rem;color:var(--mu);}
+.tbl-wrap{overflow-x:auto;border-radius:9px;box-shadow:var(--sh);margin-bottom:1.2rem;}
+table.tbl{width:100%;border-collapse:collapse;min-width:300px;}
+table.tbl thead tr{background:var(--pr);}
+table.tbl th{color:#fff;padding:.45rem .75rem;text-align:left;font-size:.76rem;font-weight:700;}
+table.tbl td{padding:.42rem .75rem;border-bottom:1px solid var(--bd);font-size:.81rem;background:#fff;}
+table.tbl tr:nth-child(even) td{background:var(--li);}
+table.tbl td:first-child{font-weight:600;color:var(--pr);}
+.pin{display:inline-block;background:var(--pr);color:#fff;border-radius:3px;padding:.06rem .38rem;font-size:.7rem;font-weight:700;}
+.pin.r{background:#c62828;}.pin.g{background:#2e7d32;}.pin.o{background:#e65100;}.pin.p{background:#6a1b9a;}.pin.t{background:#00695c;}
+.bg{display:grid;grid-template-columns:repeat(auto-fit,minmax(255px,1fr));gap:.9rem;margin-bottom:1.2rem;}
+.bug-card{border-radius:9px;border:2px solid #ffd0d0;padding:.9rem;background:#fff8f8;}
+.bug-num{background:#c62828;color:#fff;border-radius:4px;padding:.1rem .42rem;font-size:.68rem;font-weight:800;display:inline-block;margin-bottom:.3rem;}
+.bug-card h4{font-size:.82rem;font-weight:800;color:#c62828;margin-bottom:.22rem;}
+.bug-card .field{font-size:.78rem;margin-bottom:.15rem;}
+.bug-card .field span{font-weight:700;color:var(--tx);}
+.code-block{background:var(--cb);border-radius:9px;border:1.5px solid #2d3748;overflow:hidden;margin-bottom:1.2rem;}
+.ch{background:#161b22;padding:.32rem .85rem;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #2d3748;}
+.cl{font-size:.66rem;color:var(--ac);font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.cf{font-size:.68rem;color:#718096;}
+.code-block pre{padding:.85rem;overflow-x:auto;font-family:'Fira Code',Consolas,monospace;font-size:.73rem;line-height:1.72;color:#e2e8f0;}
+.kw{color:#c084fc;}.fn{color:#60a5fa;}.str{color:#86efac;}.cm{color:#6b7280;font-style:italic;}.num{color:#fb923c;}.pp{color:#f87171;}
+.proj{background:#fff;border-radius:14px;border:2px solid var(--bd);overflow:hidden;box-shadow:var(--sh);margin-bottom:1.6rem;}
+.proj-hdr{padding:1rem 1.3rem;display:flex;align-items:center;gap:.8rem;border-bottom:2px solid var(--bd);}
+.proj-ico{width:42px;height:42px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;}
+.lbl{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--mu);}
+.proj-meta h3{font-size:.92rem;font-weight:800;}
+.proj-tags{display:flex;gap:.28rem;margin-top:.28rem;flex-wrap:wrap;}
+.tag{display:inline-block;border-radius:4px;padding:.06rem .44rem;font-size:.66rem;font-weight:700;}
+.proj-body{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;padding:1.2rem 1.3rem;}
+.al{border-radius:7px;padding:.62rem .85rem;display:flex;gap:.5rem;align-items:flex-start;margin:.55rem 0;font-size:.81rem;}
+.al.info{background:#eff6ff;border-left:4px solid var(--pr);}
+.al.warn{background:#fff8e1;border-left:4px solid var(--ac);}
+.al.ok{background:#f0fdf4;border-left:4px solid var(--su);}
+.steps{display:flex;flex-direction:column;gap:.3rem;margin-bottom:.85rem;}
+.step{display:flex;gap:.55rem;align-items:flex-start;font-size:.82rem;}
+.sn{background:var(--ac);color:var(--prd);border-radius:3px;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.72rem;flex-shrink:0;margin-top:.2rem;}
+.sw{display:inline-block;width:20px;height:14px;border-radius:3px;vertical-align:middle;margin-right:4px;border:1.5px solid rgba(0,0,0,.18);}
+.tol{display:inline-block;border-radius:4px;padding:.06rem .4rem;font-size:.7rem;font-weight:800;}
+.done{background:linear-gradient(135deg,#1a237e,#0a3d91,#1565C0);border-radius:12px;padding:2rem;text-align:center;margin:1.4rem 0;}
+.done h2{color:#fff;font-size:1.4rem;font-weight:900;margin-bottom:.35rem;}
+.done h2 span{color:var(--ac);}
+.done p{color:rgba(255,255,255,.72);margin-bottom:.9rem;font-size:.88rem;}
+.pd-wrap{display:flex;flex-wrap:wrap;gap:.4rem;justify-content:center;}
+.pd{background:rgba(46,125,50,.25);border:1.5px solid rgba(46,125,50,.5);color:#a5d6a7;border-radius:5px;padding:.2rem .65rem;font-size:.74rem;font-weight:700;}
+footer{background:var(--prd);border-top:3px solid var(--ac);text-align:center;padding:1.5rem 1rem;color:rgba(255,255,255,.5);font-size:.82rem;}
+footer strong{color:var(--ac);}
+@media(max-width:860px){.sb{width:100%;height:auto;position:relative;}.main{margin-left:0;}.proj-body{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="sb">
+<div class="sb-logo"><div class="sb-ico">🐛</div><div class="sb-txt">ANU Electronics<br><span>Bug in Circuit IoT Kit</span></div></div>
+<nav class="sb-nav">
+<div class="np open"><a class="npt" href="#p1"><span class="pn">1</span> Kit Overview</a><div class="ns"><a href="#p1a">Introduction</a><a href="#p1b">Components</a><a href="#p1c">Contents</a></div></div>
+<div class="np"><a class="npt" href="#p2"><span class="pn">2</span> ESP32 &amp; IDE Setup</a><div class="ns"><a href="#p2a">Features</a><a href="#p2b">Pin Reference</a><a href="#p2c">Arduino IDE</a></div></div>
+<div class="np"><a class="npt" href="#p3"><span class="pn">3</span> Circuit Debugging</a><div class="ns"><a href="#p3a">2-Channel (2 Bugs)</a><a href="#p3b">4-Channel (4 Bugs)</a><a href="#p3c">6-Channel (6 Bugs)</a></div></div>
+<div class="np"><a class="npt" href="#p4"><span class="pn">4</span> IoT Projects 1–6</a><div class="ns"><a href="#j1">Wi-Fi LED Control</a><a href="#j2">Bluetooth LED</a><a href="#j3">Soil Moisture</a><a href="#j4">PIR Motion</a><a href="#j5">Gas Leakage</a><a href="#j6">Plant Monitor</a></div></div>
+<div class="np"><a class="npt" href="#p5"><span class="pn">5</span> IoT Projects 7–12</a><div class="ns"><a href="#j7">Security System</a><a href="#j8">Servo Motor</a><a href="#j9">Smart Parking</a><a href="#j10">Stepper Motor</a><a href="#j11">IR Attendance</a><a href="#j12">LCD Display</a></div></div>
+<div class="np"><a class="npt" href="#p6"><span class="pn">6</span> ThingSpeak Cloud</a><div class="ns"><a href="#p6a">What is ThingSpeak</a><a href="#p6b">Setup Guide</a><a href="#p6c">LED Cloud Sketch</a></div></div>
+<div class="np"><a class="npt" href="#p7"><span class="pn">7</span> Resistor Color Coding</a><div class="ns"><a href="#p7a">Color Chart</a><a href="#p7b">4-Band &amp; 5-Band</a><a href="#p7c">Worked Examples</a></div></div>
+</nav>
+<div class="sb-ft">ANU Electronics · Complete Manual</div>
+</div>
+<div class="main">
+<div id="p1"><div class="ph p1"><div class="pb">📦 Part 1 of 7</div><h1>Bug in Circuit <span>Kit Overview</span></h1><p>Introduction to the ANU Electronics Bug-in-Circuit IoT Kit — components, purpose and full table of contents.</p></div>
+<div class="sec" id="p1a"><div class="sh">🐛 What is a Bug-in-Circuit Kit?</div>
+<p style="font-size:.86rem;color:var(--mu);margin-bottom:1rem;max-width:800px;">A bug-in-circuit kit contains intentional faults — incorrect connections, missing components, wrong values or polarity mistakes — that cause circuits to malfunction. Students identify and fix these real-world bugs to build practical PCB debugging skills.</p>
+<div class="cards">
+<div class="card"><div class="ci">🔌</div><h4>2-Channel Circuit</h4><p>Two relay channels with supply and protection diode faults to debug.</p></div>
+<div class="card"><div class="ci">⚡</div><h4>4-Channel Circuit</h4><p>Four relay channels with missing traces, diodes and signal path bugs.</p></div>
+<div class="card"><div class="ci">🔧</div><h4>6-Channel Circuit</h4><p>Six relay channels with transistor biasing and LED indicator bugs.</p></div>
+<div class="card"><div class="ci">📡</div><h4>12 IoT Projects</h4><p>Wi-Fi, Bluetooth, sensors, motors and cloud using ESP32.</p></div>
+</div></div>
+<div class="sec alt" id="p1b"><div class="sh">🧰 Kit Components</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Component</th><th>Description</th></tr></thead><tbody><tr><td>ESP32 Dev Board</td><td>Main MCU — Wi-Fi + BT + dual-core 240 MHz</td></tr><tr><td>Relay Modules</td><td>5V relay with optocoupler + flyback diode</td></tr><tr><td>LEDs (Red + Blue)</td><td>Indicator LEDs across all circuits</td></tr><tr><td>Resistors</td><td>220Ω, 470Ω, 1KΩ, 10KΩ values</td></tr><tr><td>BC547 Transistors</td><td>NPN relay driver transistor</td></tr><tr><td>PH1U Optocouplers</td><td>ESP32-to-relay electrical isolation</td></tr><tr><td>Flyback Diodes</td><td>Back-EMF protection across relay coils</td></tr><tr><td>Soil Moisture Sensor</td><td>Analog output — plant/soil projects</td></tr><tr><td>PIR Sensor HC-SR501</td><td>Passive infrared motion detection</td></tr><tr><td>Gas Sensor MQ-2/5</td><td>Analog gas concentration sensor</td></tr><tr><td>DHT11 Sensor</td><td>Temperature + humidity (digital)</td></tr><tr><td>HC-SR04 Ultrasonic</td><td>Distance measurement sensor</td></tr><tr><td>28BYJ-48 Stepper</td><td>5V stepper + ULN2003 driver</td></tr><tr><td>SG90 Servo Motor</td><td>PWM servo — Wi-Fi servo project</td></tr><tr><td>16×2 I2C LCD</td><td>I2C display, address 0x27</td></tr><tr><td>IR Sensor Module</td><td>Object detection — attendance project</td></tr><tr><td>Active Buzzer</td><td>Audio alert for alarm projects</td></tr><tr><td>Breadboard + Jumpers</td><td>Prototyping essentials</td></tr></tbody></table></div></div>
+<div class="sec" id="p1c"><div class="sh">📋 Table of Contents</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>#</th><th>Topic</th><th>Part</th></tr></thead><tbody><tr><td>1</td><td>Introduction — Bug in Circuit Kit</td><td>Part 1</td></tr><tr><td>2</td><td>ESP32 Microcontroller & Arduino IDE Setup</td><td>Part 2</td></tr><tr><td>3–5</td><td>2-Channel, 4-Channel, 6-Channel Bug Correction</td><td>Part 3</td></tr><tr><td>6–11</td><td>IoT Projects 1–6 (Wi-Fi LED → Plant Monitor)</td><td>Part 4</td></tr><tr><td>12–17</td><td>IoT Projects 7–12 (Security → LCD Display)</td><td>Part 5</td></tr><tr><td>18–19</td><td>Introduction to ThingSpeak + LED Cloud Project</td><td>Part 6</td></tr><tr><td>20</td><td>Resistor Color Coding Reference</td><td>Part 7</td></tr></tbody></table></div></div></div>
+<div id="p2"><div class="ph p2"><div class="pb">🔧 Part 2 of 7</div><h1>ESP32 &amp; <span>Arduino IDE Setup</span></h1><p>ESP32 features, GPIO pin reference, communication interfaces and step-by-step Arduino IDE setup.</p></div>
+<div class="sec" id="p2a"><div class="sh">⚡ ESP32 Key Features</div>
+<div class="cards">
+<div class="card"><div class="ci">🧠</div><h4>Dual-Core 240 MHz</h4><p>Xtensa LX6 — one core for app logic, one for Wi-Fi/BT.</p></div>
+<div class="card"><div class="ci">📶</div><h4>Wi-Fi + Bluetooth</h4><p>2.4 GHz 802.11 b/g/n Wi-Fi and BT Classic + BLE 4.2.</p></div>
+<div class="card"><div class="ci">📌</div><h4>36 GPIO Pins</h4><p>Digital I/O, ADC, DAC, PWM, I2C, SPI, UART on one chip.</p></div>
+<div class="card"><div class="ci">🔋</div><h4>Low Power Modes</h4><p>Deep sleep, light sleep, modem sleep for battery IoT.</p></div>
+<div class="card"><div class="ci">📊</div><h4>12-bit ADC / DAC</h4><p>Analog reads on multiple channels; two 8-bit DAC outputs.</p></div>
+<div class="card"><div class="ci">💡</div><h4>16 PWM Channels</h4><p>Configurable frequency and duty cycle for servos, LEDs, motors.</p></div>
+</div></div>
+<div class="sec alt" id="p2b"><div class="sh">📌 GPIO Pin Reference (This Kit)</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>GPIO</th><th>Used For</th><th>Notes</th></tr></thead><tbody><tr><td>GPIO 2</td><td>Red LED / Onboard LED</td><td>Onboard LED on most ESP32 boards</td></tr><tr><td>GPIO 4</td><td>Blue LED / Buzzer</td><td>General purpose output</td></tr><tr><td>GPIO 5</td><td>Stepper IN2 / Buzzer</td><td>General purpose</td></tr><tr><td>GPIO 14</td><td>Servo Signal / Ultrasonic TRIG</td><td>PWM capable</td></tr><tr><td>GPIO 15</td><td>DHT11 Data</td><td>Digital data line</td></tr><tr><td>GPIO 17</td><td>Stepper IN4</td><td>ULN2003 driver</td></tr><tr><td>GPIO 18</td><td>Stepper IN3</td><td>ULN2003 driver</td></tr><tr><td>GPIO 19</td><td>Stepper IN1</td><td>ULN2003 driver</td></tr><tr><td>GPIO 21</td><td>I2C SDA (LCD)</td><td>Default SDA</td></tr><tr><td>GPIO 22</td><td>I2C SCL (LCD)</td><td>Default SCL</td></tr><tr><td>GPIO 27</td><td>PIR OUT / Ultrasonic ECHO / IR Sensor</td><td>Digital input</td></tr><tr><td>GPIO 34</td><td>Soil Sensor AO / Gas Sensor AO</td><td>Input-only ADC pin</td></tr></tbody></table></div><div class="al warn">⚠️ <div>GPIO 34,35,36,39 are <strong>input-only</strong>. Avoid GPIO 0,2,15 for custom use — they affect boot mode.</div></div>
+</div>
+<div class="sec" id="p2c"><div class="sh">💻 Arduino IDE Setup</div>
+<div class="steps">
+<div class="step"><div class="sn">1</div><div>Download &amp; install <strong>Arduino IDE</strong> from <code>arduino.cc</code></div></div>
+<div class="step"><div class="sn">2</div><div><strong>File → Preferences</strong> → paste in Additional Board URLs:<br><code style="font-size:.72rem;">https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</code></div></div>
+<div class="step"><div class="sn">3</div><div><strong>Tools → Board → Boards Manager</strong> → search <code>esp32</code> → install <strong>ESP32 by Espressif Systems</strong></div></div>
+<div class="step"><div class="sn">4</div><div><strong>Tools → Board</strong> → select <strong>ESP32 Dev Module</strong></div></div>
+<div class="step"><div class="sn">5</div><div>Connect ESP32 via USB → <strong>Tools → Port</strong> → select correct COM port</div></div>
+<div class="step"><div class="sn">6</div><div>Click <strong>Upload (→)</strong> to flash. Hold <strong>BOOT</strong> button if upload fails.</div></div>
+</div>
+<div class="al info">💡 <div>Install libraries via <strong>Sketch → Include Library → Manage Libraries</strong>: DHT, LiquidCrystal I2C, ESP32Servo, Stepper.</div></div>
+</div></div>
+<div id="p3"><div class="ph p3"><div class="pb">🐛 Part 3 of 7</div><h1>PCB Circuit <span>Bug Correction</span></h1><p>All 12 identified bugs across the 2-Channel, 4-Channel and 6-Channel relay circuits with location, problem, cause and correction.</p></div>
+<div class="sec" id="p3a"><div class="sh">🔌 2-Channel Circuit — 2 Bugs</div>
+<p style="font-size:.82rem;color:var(--mu);margin-bottom:.9rem;">Each channel: ESP32 SIG → Optocoupler (PH1U) → BC547 Transistor → Relay → Load. Both channels share 5V supply and GND.</p>
+<div class="bg"><div class="bug-card"><span class="bug-num">Bug 1</span><h4>Missing Supply to Optocoupler (U1H2, CH1)</h4><div class="field">🔴 <span>Problem:</span> PH1U4 pin 4 not receiving Vcc supply.</div><div class="field">⚡ <span>Cause:</span> PCB hole connection missing.</div><div class="field">✅ <span>Fix:</span> Jumper between U1H2 bottom and top holes — 5V restored to PH1U4 pin 4.</div></div><div class="bug-card"><span class="bug-num">Bug 2</span><h4>Flyback Diode Not Connected (Relay 2 — U5)</h4><div class="field">🔴 <span>Problem:</span> D2U5 not soldered across relay coil — no back-EMF protection.</div><div class="field">⚡ <span>Cause:</span> Diode omission during PCB assembly.</div><div class="field">✅ <span>Fix:</span> Soldered D2U5: cathode to Vcc side, anode to transistor collector.</div></div></div>
+<div class="al ok">✅ <div><strong>Correction process:</strong> Visual inspection → Multimeter continuity test → Channel-wise ESP32 output activation → Verify LED + relay click per channel.</div></div>
+</div>
+<div class="sec alt" id="p3b"><div class="sh">⚡ 4-Channel Circuit — 4 Bugs</div>
+<div class="bg"><div class="bug-card"><span class="bug-num">Bug 1</span><h4>Missing Supply — Optocoupler CH1</h4><div class="field">🔴 <span>Problem:</span> PH1U4 pin 4 no Vcc.</div><div class="field">⚡ <span>Cause:</span> PCB hole missing.</div><div class="field">✅ <span>Fix:</span> Jumper U1H2 bottom → top.</div></div><div class="bug-card"><span class="bug-num">Bug 2</span><h4>Flyback Diode Missing (Relay 2 — U5)</h4><div class="field">🔴 <span>Problem:</span> D2U5 not across relay coil.</div><div class="field">⚡ <span>Cause:</span> Diode omission.</div><div class="field">✅ <span>Fix:</span> Soldered D2U5, correct polarity.</div></div><div class="bug-card"><span class="bug-num">Bug 3</span><h4>Signal Not Reaching LED (CH3 — D1U6)</h4><div class="field">🔴 <span>Problem:</span> D27 not connected to D1U6 anode — CH3 LED stays OFF.</div><div class="field">⚡ <span>Cause:</span> PCB trace missing/misrouted.</div><div class="field">✅ <span>Fix:</span> Connected D27 to D1U6 anode — LED restored.</div></div><div class="bug-card"><span class="bug-num">Bug 4</span><h4>Flyback Diode Missing (Relay 4 — U7)</h4><div class="field">🔴 <span>Problem:</span> D2U7 not across relay 4 coil.</div><div class="field">⚡ <span>Cause:</span> Diode omission.</div><div class="field">✅ <span>Fix:</span> Soldered D2U7 — cathode to Vcc, anode to collector.</div></div></div></div>
+<div class="sec" id="p3c"><div class="sh">🔧 6-Channel Circuit — 6 Bugs</div>
+<div class="bg"><div class="bug-card"><span class="bug-num">Bug 1</span><h4>Missing Supply — Optocoupler CH1</h4><div class="field">🔴 <span>Problem:</span> PH1U4 pin 4 no Vcc.</div><div class="field">⚡ <span>Cause:</span> PCB hole missing.</div><div class="field">✅ <span>Fix:</span> Jumper U1H2 bottom → top.</div></div><div class="bug-card"><span class="bug-num">Bug 2</span><h4>Flyback Diode Missing (Relay 2 — U5)</h4><div class="field">🔴 <span>Problem:</span> D2U5 not soldered.</div><div class="field">⚡ <span>Cause:</span> Diode omission.</div><div class="field">✅ <span>Fix:</span> Soldered D2U5, correct polarity.</div></div><div class="bug-card"><span class="bug-num">Bug 3</span><h4>Signal Not Reaching LED (CH3 — D1U6)</h4><div class="field">🔴 <span>Problem:</span> D27 not at D1U6 anode.</div><div class="field">⚡ <span>Cause:</span> Trace missing.</div><div class="field">✅ <span>Fix:</span> Connected D27 to D1U6 anode.</div></div><div class="bug-card"><span class="bug-num">Bug 4</span><h4>Flyback Diode Missing (Relay 4 — U7)</h4><div class="field">🔴 <span>Problem:</span> D2U7 missing.</div><div class="field">⚡ <span>Cause:</span> Diode omission.</div><div class="field">✅ <span>Fix:</span> Soldered D2U7.</div></div><div class="bug-card"><span class="bug-num">Bug 5</span><h4>Signal Not Reaching LED (CH5 — D1U8)</h4><div class="field">🔴 <span>Problem:</span> D25 not at D1U8 anode — Relay 5 LED stays OFF.</div><div class="field">⚡ <span>Cause:</span> Missing PCB trace.</div><div class="field">✅ <span>Fix:</span> Connected D25 to D1U8 anode — Relay 5 LED restored.</div></div><div class="bug-card"><span class="bug-num">Bug 6</span><h4>Transistor Base Disconnected (CH6)</h4><div class="field">🔴 <span>Problem:</span> BC547 base for Relay 6 not connected to base resistor — transistor never biased, relay stays OFF.</div><div class="field">⚡ <span>Cause:</span> Missing trace between transistor base and resistor.</div><div class="field">✅ <span>Fix:</span> Connected base to resistor — Relay 6 fully operational.</div></div></div>
+<div class="al info">💡 <div><strong>Universal debug approach:</strong> (1) Visual PCB inspection, (2) Multimeter continuity on supply traces, (3) Activate each ESP32 output independently, (4) Verify LED + relay click per channel.</div></div>
+</div></div>
+<div id="p4"><div class="ph p4"><div class="pb">📡 Part 4 of 7</div><h1>IoT Projects <span>1 – 6</span></h1><p>Wi-Fi LED Control, Bluetooth LED, Soil Moisture, PIR Motion, Gas Leakage and Plant Monitoring using ESP32.</p></div>
+<div class="sec" id="j1"><div class="sh">🌐 Project 1 — Wi-Fi LED Control</div><div class="proj" id="j1i"><div class="proj-hdr" style="background:linear-gradient(90deg,#1565C022,#fff);"><div class="proj-ico" style="background:#1565C0;color:#fff;">🌐</div><div class="proj-meta"><div class="lbl">Project 1</div><h3>Wi-Fi Based LED Control</h3><div class="proj-tags"><span class="tag" style="background:#e3f2fd;color:#1565C0;">Wi-Fi</span><span class="tag" style="background:#e8f5e9;color:#2e7d32;">WebServer</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>Red LED Anode</td><td>GPIO 2 via 220Ω</td></tr><tr><td>Blue LED Anode</td><td>GPIO 4 via 220Ω</td></tr><tr><td>All Cathodes</td><td>GND</td></tr></tbody></table></div><div class="steps"><div class="step"><div class="sn">1</div><div>Upload → Serial Monitor → note IP</div></div><div class="step"><div class="sn">2</div><div>Open browser on same Wi-Fi → enter IP</div></div><div class="step"><div class="sn">3</div><div>Click ON/OFF buttons to toggle LEDs</div></div></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">wifi_led.ino</span></div><pre><span class="pp">#include</span> <span class="str">&lt;WiFi.h&gt;</span>
+<span class="pp">#include</span> <span class="str">&lt;WebServer.h&gt;</span>
+<span class="kw">const char</span>* ssid=<span class="str">"WIFI"</span>; <span class="kw">const char</span>* pass=<span class="str">"PASS"</span>;
+WebServer server(<span class="num">80</span>);
+<span class="pp">#define</span> R <span class="num">2</span>
+<span class="pp">#define</span> B <span class="num">4</span>
+<span class="kw">void</span> <span class="fn">setup</span>(){
+  pinMode(R,OUTPUT); pinMode(B,OUTPUT);
+  WiFi.<span class="fn">begin</span>(ssid,pass);
+  <span class="kw">while</span>(WiFi.status()!=WL_CONNECTED)delay(<span class="num">500</span>);
+  server.on(<span class="str">"/ron"</span>, [](){digitalWrite(R,HIGH);server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,html);});
+  server.on(<span class="str">"/roff"</span>,[](){digitalWrite(R,LOW); server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,html);});
+  server.on(<span class="str">"/bon"</span>, [](){digitalWrite(B,HIGH);server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,html);});
+  server.on(<span class="str">"/boff"</span>,[](){digitalWrite(B,LOW); server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,html);});
+  server.<span class="fn">begin</span>();
+}
+<span class="kw">void</span> <span class="fn">loop</span>(){server.<span class="fn">handleClient</span>();}</pre></div></div></div></div></div>
+<div class="sec alt" id="j2"><div class="sh">📱 Project 2 — Bluetooth LED Control</div><div class="proj" id="j2i"><div class="proj-hdr" style="background:linear-gradient(90deg,#6a1b9a22,#fff);"><div class="proj-ico" style="background:#6a1b9a;color:#fff;">📱</div><div class="proj-meta"><div class="lbl">Project 2</div><h3>Bluetooth LED Control</h3><div class="proj-tags"><span class="tag" style="background:#f3e5f5;color:#6a1b9a;">Bluetooth</span><span class="tag" style="background:#e8f5e9;color:#2e7d32;">Serial</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>Red LED</td><td>GPIO 2 via 220Ω</td></tr><tr><td>Blue LED</td><td>GPIO 4 via 220Ω</td></tr><tr><td>All Cathodes</td><td>GND</td></tr></tbody></table></div><div class="al info">📱 <div>Use <strong>Serial Bluetooth Terminal</strong> app. Commands: R=Red ON, r=Red OFF, B=Blue ON, b=Blue OFF</div></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">bt_led.ino</span></div><pre><span class="pp">#include</span> <span class="str">"BluetoothSerial.h"</span>
+BluetoothSerial BT;
+<span class="kw">void</span> <span class="fn">setup</span>(){
+  BT.<span class="fn">begin</span>(<span class="str">"ESP32BT"</span>);
+  pinMode(<span class="num">2</span>,OUTPUT); pinMode(<span class="num">4</span>,OUTPUT);
+}
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">if</span>(BT.<span class="fn">available</span>()){
+    <span class="kw">char</span> c=BT.<span class="fn">read</span>();
+    <span class="kw">if</span>(c==<span class="str">'R'</span>)digitalWrite(<span class="num">2</span>,HIGH);
+    <span class="kw">if</span>(c==<span class="str">'r'</span>)digitalWrite(<span class="num">2</span>,LOW);
+    <span class="kw">if</span>(c==<span class="str">'B'</span>)digitalWrite(<span class="num">4</span>,HIGH);
+    <span class="kw">if</span>(c==<span class="str">'b'</span>)digitalWrite(<span class="num">4</span>,LOW);
+  }
+}</pre></div></div></div></div></div>
+<div class="sec" id="j3"><div class="sh">🌱 Project 3 — Soil Moisture Monitor</div><div class="proj" id="j3i"><div class="proj-hdr" style="background:linear-gradient(90deg,#2e7d3222,#fff);"><div class="proj-ico" style="background:#2e7d32;color:#fff;">🌱</div><div class="proj-meta"><div class="lbl">Project 3</div><h3>Soil Moisture Monitoring</h3><div class="proj-tags"><span class="tag" style="background:#e8f5e9;color:#2e7d32;">Analog</span><span class="tag" style="background:#e3f2fd;color:#1565C0;">Serial Monitor</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>Sensor VCC</td><td>3.3V</td></tr><tr><td>Sensor GND</td><td>GND</td></tr><tr><td>Sensor AO</td><td>GPIO 34</td></tr></tbody></table></div><p style="font-size:.78rem;color:var(--mu);">Thresholds: &gt;2500=Dry | 1500-2500=Moist | &lt;1500=Wet</p></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">soil.ino</span></div><pre><span class="pp">#define</span> PIN <span class="num">34</span>
+<span class="kw">void</span> <span class="fn">setup</span>(){Serial.<span class="fn">begin</span>(<span class="num">9600</span>);}
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">int</span> v=analogRead(PIN);
+  String s=(v><span class="num">2500</span>)?<span class="str">"Dry"</span>:(v><span class="num">1500</span>)?<span class="str">"Moist"</span>:<span class="str">"Wet"</span>;
+  Serial.println(String(v)+<span class="str">" | "</span>+s);
+  delay(<span class="num">1000</span>);
+}</pre></div></div></div></div></div>
+<div class="sec alt" id="j4"><div class="sh">👁️ Project 4 — PIR Motion Detection</div><div class="proj" id="j4i"><div class="proj-hdr" style="background:linear-gradient(90deg,#c6282822,#fff);"><div class="proj-ico" style="background:#c62828;color:#fff;">👁️</div><div class="proj-meta"><div class="lbl">Project 4</div><h3>PIR Motion Detection</h3><div class="proj-tags"><span class="tag" style="background:#fce4e4;color:#c62828;">PIR HC-SR501</span><span class="tag" style="background:#e8f5e9;color:#2e7d32;">LED Alert</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>PIR VCC</td><td>5V or 3.3V</td></tr><tr><td>PIR GND</td><td>GND</td></tr><tr><td>PIR OUT</td><td>GPIO 27</td></tr><tr><td>LED</td><td>GPIO 2 via 220Ω</td></tr></tbody></table></div><div class="al warn">⏳ <div>Wait <strong>30–60 sec</strong> after power-on for PIR calibration.</div></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">pir.ino</span></div><pre><span class="kw">void</span> <span class="fn">setup</span>(){Serial.<span class="fn">begin</span>(<span class="num">9600</span>);pinMode(<span class="num">27</span>,INPUT);pinMode(<span class="num">2</span>,OUTPUT);}
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">if</span>(digitalRead(<span class="num">27</span>)==HIGH){
+    digitalWrite(<span class="num">2</span>,HIGH);
+    Serial.println(<span class="str">"Motion Detected!"</span>);
+  }<span class="kw">else</span>{
+    digitalWrite(<span class="num">2</span>,LOW);
+    Serial.println(<span class="str">"No Motion"</span>);
+  }
+  delay(<span class="num">500</span>);
+}</pre></div></div></div></div></div>
+<div class="sec" id="j5"><div class="sh">💨 Project 5 — Gas Leakage Detection</div><div class="proj" id="j5i"><div class="proj-hdr" style="background:linear-gradient(90deg,#e6510022,#fff);"><div class="proj-ico" style="background:#e65100;color:#fff;">💨</div><div class="proj-meta"><div class="lbl">Project 5</div><h3>Gas Leakage Detection</h3><div class="proj-tags"><span class="tag" style="background:#fff3e0;color:#e65100;">MQ Sensor</span><span class="tag" style="background:#fce4e4;color:#c62828;">Alert</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>Gas Sensor VCC</td><td>5V</td></tr><tr><td>Gas Sensor GND</td><td>GND</td></tr><tr><td>Sensor AO</td><td>GPIO 34</td></tr><tr><td>LED</td><td>GPIO 2 via 220Ω</td></tr></tbody></table></div><div class="al warn">🔥 <div>Allow MQ sensor <strong>20–30 sec warm-up</strong> after power on.</div></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">gas.ino</span></div><pre><span class="pp">#define</span> G <span class="num">34</span>
+<span class="pp">#define</span> L <span class="num">2</span>
+<span class="pp">#define</span> T <span class="num">1500</span>
+<span class="kw">void</span> <span class="fn">setup</span>(){Serial.<span class="fn">begin</span>(<span class="num">9600</span>);pinMode(L,OUTPUT);}
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">int</span> v=analogRead(G);
+  Serial.println(<span class="str">"Gas:"</span>+String(v));
+  <span class="kw">if</span>(v>T){digitalWrite(L,HIGH);Serial.println(<span class="str">"GAS LEAK!"</span>);}
+  <span class="kw">else</span> digitalWrite(L,LOW);
+  delay(<span class="num">1000</span>);
+}</pre></div></div></div></div></div>
+<div class="sec alt" id="j6"><div class="sh">🌿 Project 6 — Plant Monitoring (Wi-Fi)</div><div class="proj" id="j6i"><div class="proj-hdr" style="background:linear-gradient(90deg,#2e7d3222,#fff);"><div class="proj-ico" style="background:#2e7d32;color:#fff;">🌿</div><div class="proj-meta"><div class="lbl">Project 6</div><h3>Plant Monitor — DHT11 + Soil + Wi-Fi</h3><div class="proj-tags"><span class="tag" style="background:#e8f5e9;color:#2e7d32;">DHT11</span><span class="tag" style="background:#e8f5e9;color:#2e7d32;">Soil</span><span class="tag" style="background:#e3f2fd;color:#1565C0;">Wi-Fi</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>DHT11 VCC</td><td>3.3V</td></tr><tr><td>DHT11 DATA</td><td>GPIO 15</td></tr><tr><td>Soil VCC</td><td>3.3V</td></tr><tr><td>Soil AO</td><td>GPIO 34</td></tr><tr><td>All GNDs</td><td>GND</td></tr></tbody></table></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">plant.ino</span></div><pre><span class="pp">#include</span> <span class="str">&lt;DHT.h&gt;</span>
+<span class="pp">#define</span> DP <span class="num">15</span>
+<span class="pp">#define</span> SP <span class="num">34</span>
+DHT dht(DP,DHT11);
+<span class="kw">void</span> <span class="fn">handleRoot</span>(){
+  <span class="kw">float</span> t=dht.<span class="fn">readTemperature</span>();
+  <span class="kw">float</span> h=dht.<span class="fn">readHumidity</span>();
+  <span class="kw">int</span> s=analogRead(SP);
+  String soil=(s><span class="num">2500</span>)?<span class="str">"Dry"</span>:(s><span class="num">1500</span>)?<span class="str">"Moist"</span>:<span class="str">"Wet"</span>;
+  String pg=<span class="str">"&lt;h1&gt;Plant Monitor&lt;/h1&gt;"</span>;
+  pg+=<span class="str">"&lt;p&gt;Temp:"</span>+String(t)+<span class="str">"C Hum:"</span>+String(h)+<span class="str">"% Soil:"</span>+soil+<span class="str">"&lt;/p&gt;"</span>;
+  server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,pg);
+}</pre></div></div></div></div></div></div>
+<div id="p5"><div class="ph p5"><div class="pb">🤖 Part 5 of 7</div><h1>IoT Projects <span>7 – 12</span></h1><p>Security System, Servo Motor, Smart Parking, Stepper Motor, IR Attendance and LCD Display using ESP32 Wi-Fi.</p></div>
+<div class="sec" id="j7"><div class="sh">🔒 Project 7 — Wi-Fi Security System</div><div class="proj" id="j7i"><div class="proj-hdr" style="background:linear-gradient(90deg,#c6282822,#fff);"><div class="proj-ico" style="background:#c62828;color:#fff;">🔒</div><div class="proj-meta"><div class="lbl">Project 7</div><h3>Wi-Fi Security System</h3><div class="proj-tags"><span class="tag" style="background:#fce4e4;color:#c62828;">PIR</span><span class="tag" style="background:#e3f2fd;color:#1565C0;">Wi-Fi</span><span class="tag" style="background:#fff3e0;color:#e65100;">Buzzer</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>PIR OUT</td><td>GPIO 27</td></tr><tr><td>LED</td><td>GPIO 2 via 220Ω</td></tr><tr><td>Buzzer</td><td>GPIO 4</td></tr><tr><td>All GNDs</td><td>GND</td></tr></tbody></table></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">security.ino</span></div><pre><span class="pp">#define</span> PIR <span class="num">27</span>
+<span class="pp">#define</span> LED <span class="num">2</span>
+<span class="pp">#define</span> BUZ <span class="num">4</span>
+String st=<span class="str">"Area Secure"</span>;
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">if</span>(digitalRead(PIR)==HIGH){
+    st=<span class="str">"MOTION DETECTED!"</span>;
+    digitalWrite(LED,HIGH);digitalWrite(BUZ,HIGH);
+  }<span class="kw">else</span>{
+    st=<span class="str">"Area Secure"</span>;
+    digitalWrite(LED,LOW);digitalWrite(BUZ,LOW);
+  }
+  server.<span class="fn">handleClient</span>();delay(<span class="num">500</span>);
+}</pre></div></div></div></div></div>
+<div class="sec alt" id="j8"><div class="sh">⚙️ Project 8 — Wi-Fi Servo Motor</div><div class="proj" id="j8i"><div class="proj-hdr" style="background:linear-gradient(90deg,#1565C022,#fff);"><div class="proj-ico" style="background:#1565C0;color:#fff;">⚙️</div><div class="proj-meta"><div class="lbl">Project 8</div><h3>Wi-Fi Controlled Servo Motor</h3><div class="proj-tags"><span class="tag" style="background:#e3f2fd;color:#1565C0;">Wi-Fi</span><span class="tag" style="background:#f3e5f5;color:#6a1b9a;">SG90 PWM</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>Servo VCC</td><td>5V (VIN/external)</td></tr><tr><td>Servo GND</td><td>GND</td></tr><tr><td>Servo Signal</td><td>GPIO 14</td></tr></tbody></table></div><div class="al warn">⚠️ <div>Power servo from <strong>VIN or external 5V</strong> — 3.3V insufficient for SG90.</div></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">servo.ino</span></div><pre><span class="pp">#include</span> <span class="str">&lt;ESP32Servo.h&gt;</span>
+Servo s; s.<span class="fn">attach</span>(<span class="num">14</span>);
+<span class="cm">// Routes: /0  /90  /180</span>
+<span class="kw">void</span> <span class="fn">h0</span>()  {s.<span class="fn">write</span>(<span class="num">0</span>);   server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,getHTML());}
+<span class="kw">void</span> <span class="fn">h90</span>() {s.<span class="fn">write</span>(<span class="num">90</span>);  server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,getHTML());}
+<span class="kw">void</span> <span class="fn">h180</span>(){s.<span class="fn">write</span>(<span class="num">180</span>); server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,getHTML());}</pre></div></div></div></div></div>
+<div class="sec" id="j9"><div class="sh">🚗 Project 9 — Smart Parking Assistant</div><div class="proj" id="j9i"><div class="proj-hdr" style="background:linear-gradient(90deg,#00695c22,#fff);"><div class="proj-ico" style="background:#00695c;color:#fff;">🚗</div><div class="proj-meta"><div class="lbl">Project 9</div><h3>Smart Garage Parking — HC-SR04</h3><div class="proj-tags"><span class="tag" style="background:#e0f2f1;color:#00695c;">HC-SR04</span><span class="tag" style="background:#e8f5e9;color:#2e7d32;">LEDs</span><span class="tag" style="background:#fff3e0;color:#e65100;">Buzzer</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>HC-SR04 VCC</td><td>5V</td></tr><tr><td>TRIG</td><td>GPIO 14</td></tr><tr><td>ECHO</td><td>GPIO 27</td></tr><tr><td>Green LED</td><td>GPIO 2</td></tr><tr><td>Red LED</td><td>GPIO 4</td></tr><tr><td>Buzzer</td><td>GPIO 5</td></tr></tbody></table></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">parking.ino</span></div><pre><span class="kw">long</span> <span class="fn">getDist</span>(){
+  digitalWrite(<span class="num">14</span>,LOW);delayMicroseconds(<span class="num">2</span>);
+  digitalWrite(<span class="num">14</span>,HIGH);delayMicroseconds(<span class="num">10</span>);
+  digitalWrite(<span class="num">14</span>,LOW);
+  <span class="kw">return</span> pulseIn(<span class="num">27</span>,HIGH)*<span class="num">0.034</span>/<span class="num">2</span>;
+}
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">long</span> d=getDist();
+  <span class="kw">if</span>(d&lt;<span class="num">20</span>){<span class="cm">// Too close</span>
+    digitalWrite(<span class="num">4</span>,HIGH);digitalWrite(<span class="num">2</span>,LOW);
+    tone(<span class="num">5</span>,<span class="num">1000</span>);
+  }<span class="kw">else</span>{
+    digitalWrite(<span class="num">4</span>,LOW);digitalWrite(<span class="num">2</span>,HIGH);
+    noTone(<span class="num">5</span>);
+  }
+  delay(<span class="num">200</span>);
+}</pre></div></div></div></div></div>
+<div class="sec alt" id="j10"><div class="sh">🔄 Project 10 — Wi-Fi Stepper Motor</div><div class="proj" id="j10i"><div class="proj-hdr" style="background:linear-gradient(90deg,#28359322,#fff);"><div class="proj-ico" style="background:#283593;color:#fff;">🔄</div><div class="proj-meta"><div class="lbl">Project 10</div><h3>Stepper Motor Control via Wi-Fi</h3><div class="proj-tags"><span class="tag" style="background:#e8eaf6;color:#283593;">28BYJ-48</span><span class="tag" style="background:#e3f2fd;color:#1565C0;">ULN2003</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>IN1</td><td>GPIO 19</td></tr><tr><td>IN2</td><td>GPIO 5</td></tr><tr><td>IN3</td><td>GPIO 18</td></tr><tr><td>IN4</td><td>GPIO 17</td></tr><tr><td>VCC</td><td>5V external</td></tr><tr><td>GND</td><td>GND</td></tr></tbody></table></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">stepper.ino</span></div><pre><span class="pp">#include</span> <span class="str">&lt;Stepper.h&gt;</span>
+Stepper m(<span class="num">2048</span>,<span class="num">19</span>,<span class="num">5</span>,<span class="num">18</span>,<span class="num">17</span>);
+<span class="kw">void</span> <span class="fn">setup</span>(){m.<span class="fn">setSpeed</span>(<span class="num">10</span>);}
+<span class="cm">// Routes: /cw  /ccw  /stop</span>
+<span class="kw">void</span> <span class="fn">hCW</span>() {m.<span class="fn">step</span>( <span class="num">512</span>);server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,getHTML());}
+<span class="kw">void</span> <span class="fn">hCCW</span>(){m.<span class="fn">step</span>(-<span class="num">512</span>);server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,getHTML());}</pre></div></div></div></div></div>
+<div class="sec" id="j11"><div class="sh">📋 Project 11 — Smart IR Attendance System</div><div class="proj" id="j11i"><div class="proj-hdr" style="background:linear-gradient(90deg,#00838f22,#fff);"><div class="proj-ico" style="background:#00838f;color:#fff;">📋</div><div class="proj-meta"><div class="lbl">Project 11</div><h3>IR Attendance System</h3><div class="proj-tags"><span class="tag" style="background:#e0f7fa;color:#006064;">IR Sensor</span><span class="tag" style="background:#e3f2fd;color:#1565C0;">Auto Count</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>IR VCC</td><td>3.3V or 5V</td></tr><tr><td>IR GND</td><td>GND</td></tr><tr><td>IR OUT</td><td>GPIO 27</td></tr></tbody></table></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">attend.ino</span></div><pre><span class="pp">#define</span> IR <span class="num">27</span>
+<span class="kw">int</span> cnt=<span class="num">0</span>; <span class="kw">bool</span> det=<span class="kw">false</span>;
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  <span class="kw">if</span>(digitalRead(IR)==LOW&amp;&amp;!det){
+    cnt++; det=<span class="kw">true</span>;
+    Serial.println(<span class="str">"Count:"</span>+String(cnt));
+  }
+  <span class="kw">if</span>(digitalRead(IR)==HIGH)det=<span class="kw">false</span>;
+  server.<span class="fn">handleClient</span>();delay(<span class="num">100</span>);
+}</pre></div></div></div></div></div>
+<div class="sec alt" id="j12"><div class="sh">🖥️ Project 12 — Wi-Fi LCD Display</div><div class="proj" id="j12i"><div class="proj-hdr" style="background:linear-gradient(90deg,#1565C022,#fff);"><div class="proj-ico" style="background:#1565C0;color:#fff;">🖥️</div><div class="proj-meta"><div class="lbl">Project 12</div><h3>Wi-Fi Controlled LCD Display</h3><div class="proj-tags"><span class="tag" style="background:#e3f2fd;color:#1565C0;">I2C LCD</span><span class="tag" style="background:#f3e5f5;color:#6a1b9a;">16×2</span></div></div></div><div class="proj-body"><div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>LCD VCC</td><td>3.3V or 5V</td></tr><tr><td>LCD GND</td><td>GND</td></tr><tr><td>LCD SDA</td><td>GPIO 21</td></tr><tr><td>LCD SCL</td><td>GPIO 22</td></tr></tbody></table></div><div class="al info">💡 <div>Default I2C address: <strong>0x27</strong>. Run I2C scanner sketch if LCD does not respond.</div></div></div><div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">lcd.ino</span></div><pre><span class="pp">#include</span> <span class="str">&lt;LiquidCrystal_I2C.h&gt;</span>
+LiquidCrystal_I2C lcd(<span class="num">0x27</span>,<span class="num">16</span>,<span class="num">2</span>);
+<span class="kw">void</span> <span class="fn">handleSet</span>(){
+  <span class="kw">if</span>(server.<span class="fn">hasArg</span>(<span class="str">"msg"</span>)){
+    String m=server.<span class="fn">arg</span>(<span class="str">"msg"</span>);
+    lcd.<span class="fn">clear</span>();lcd.<span class="fn">setCursor</span>(<span class="num">0</span>,<span class="num">0</span>);
+    lcd.<span class="fn">print</span>(m);
+    server.<span class="fn">send</span>(<span class="num">200</span>,<span class="str">"text/html"</span>,getHTML());
+  }
+}</pre></div></div></div></div></div></div>
+<div id="p6"><div class="ph p6"><div class="pb">☁️ Part 6 of 7</div><h1>ThingSpeak <span>Cloud IoT</span></h1><p>Real-time IoT data logging, visualization and remote control using ThingSpeak by MathWorks via simple HTTPS API calls.</p></div>
+<div class="sec" id="p6a"><div class="sh">☁️ What is ThingSpeak?</div>
+<div class="cards">
+<div class="card"><div class="ci">📊</div><h4>Real-Time Graphs</h4><p>Automatic live charts for every data field — accessible from any browser worldwide.</p></div>
+<div class="card"><div class="ci">🗄️</div><h4>8-Field Channels</h4><p>Each channel supports up to 8 data fields (temperature, humidity, sensor values etc.).</p></div>
+<div class="card"><div class="ci">🔑</div><h4>API Key Access</h4><p>Write API Key to send data. Read API Key to retrieve data. Simple HTTPS GET requests.</p></div>
+<div class="card"><div class="ci">⏱️</div><h4>Free Tier</h4><p>Free plan: 1 message per 15 seconds. Use 20 sec delay in sketch to stay within limits.</p></div>
+<div class="card"><div class="ci">🔔</div><h4>Threshold Alerts</h4><p>Trigger emails or webhooks when field values cross user-defined thresholds.</p></div>
+<div class="card"><div class="ci">🧮</div><h4>MATLAB Analysis</h4><p>Built-in MATLAB code blocks for advanced data processing and visualization.</p></div>
+</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>API Key</th><th>Direction</th><th>Example URL</th></tr></thead><tbody><tr><td>Write API Key</td><td>ESP32 → Cloud</td><td>api.thingspeak.com/update?api_key=KEY&field1=1</td></tr><tr><td>Read API Key</td><td>Cloud → ESP32</td><td>api.thingspeak.com/channels/ID/fields/1/last.txt?api_key=KEY</td></tr></tbody></table></div></div>
+<div class="sec alt" id="p6b"><div class="sh">🛠️ ThingSpeak Setup Guide</div>
+<div class="steps">
+<div class="step"><div class="sn">1</div><div>Go to <strong>thingspeak.com</strong> → Create a free MathWorks account</div></div>
+<div class="step"><div class="sn">2</div><div>Click <strong>Channels → New Channel</strong> → fill Name, enable Field 1 → Save Channel</div></div>
+<div class="step"><div class="sn">3</div><div>Go to <strong>API Keys</strong> tab → copy your <strong>Write API Key</strong> and <strong>Read API Key</strong></div></div>
+<div class="step"><div class="sn">4</div><div>Note your <strong>Channel ID</strong> from the channel page URL</div></div>
+<div class="step"><div class="sn">5</div><div>Paste Channel ID, Write Key and Read Key into your ESP32 sketch → upload and test</div></div>
+</div>
+<div class="al warn">⏱️ <div>Free tier minimum interval: <strong>15 seconds</strong>. Use <code>delay(20000)</code> to stay safe.</div></div>
+</div>
+<div class="sec" id="p6c"><div class="sh">💡 ESP32 LED Control via ThingSpeak</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;">
+<div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Device / Pin</th><th>ESP32 Pin</th></tr></thead><tbody><tr><td>LED (onboard/external)</td><td>GPIO 2</td></tr><tr><td>ESP32 Power</td><td>USB</td></tr><tr><td>Wi-Fi</td><td>Required for cloud</td></tr></tbody></table></div>
+<p style="font-size:.8rem;color:var(--mu);margin-top:.4rem;">ESP32 <strong>writes</strong> field1=1 to turn LED ON, then <strong>reads back</strong> the value and acts on it — full two-way cloud communication demonstrated.</p>
+</div>
+<div><div class="code-block"><div class="code-hdr"><span class="code-lang">C++</span><span class="code-file">thingspeak_led.ino</span></div><pre><span class="pp">#include</span> <span class="str">&lt;WiFi.h&gt;</span>
+<span class="pp">#include</span> <span class="str">&lt;HTTPClient.h&gt;</span>
+<span class="pp">#define</span> LED <span class="num">2</span>
+<span class="kw">const char</span>* ssid=<span class="str">"WIFI"</span>;
+<span class="kw">const char</span>* pass=<span class="str">"PASS"</span>;
+String chID=<span class="str">"CHANNEL_ID"</span>;
+String wKey=<span class="str">"WRITE_KEY"</span>;
+String rKey=<span class="str">"READ_KEY"</span>;
+<span class="kw">void</span> <span class="fn">loop</span>(){
+  HTTPClient h;
+  <span class="cm">// Write field1=1 (LED ON)</span>
+  h.<span class="fn">begin</span>(<span class="str">"https://api.thingspeak.com/update?api_key="</span>+wKey+<span class="str">"&amp;field1=1"</span>);
+  h.<span class="fn">GET</span>(); h.<span class="fn">end</span>(); delay(<span class="num">5000</span>);
+  <span class="cm">// Read back field1</span>
+  h.<span class="fn">begin</span>(<span class="str">"https://api.thingspeak.com/channels/"</span>+chID+<span class="str">"/fields/1/last.txt?api_key="</span>+rKey);
+  <span class="kw">if</span>(h.<span class="fn">GET</span>()==<span class="num">200</span>){
+    String v=h.<span class="fn">getString</span>(); v.trim();
+    digitalWrite(LED,(v==<span class="str">"1"</span>)?HIGH:LOW);
+  }
+  h.<span class="fn">end</span>(); delay(<span class="num">20000</span>);
+}</pre></div></div>
+</div></div></div>
+<div id="p7"><div class="ph p7"><div class="pb">🎨 Part 7 of 7 — Final</div><h1>Resistor <span>Color Coding</span></h1><p>Complete color band reference — decode any resistor value in seconds. 4-band and 5-band charts with worked examples.</p></div>
+<div class="sec" id="p7a"><div class="sh">📊 Complete Color Band Chart</div>
+<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Color</th><th>Swatch</th><th>1st Digit</th><th>2nd Digit</th><th>3rd Digit</th><th>Multiplier</th><th>Tolerance</th></tr></thead><tbody>
+<tr><td>Black</td><td><span class="sw" style="background:#1a1a1a;border-color:#555;"></span></td><td>0</td><td>0</td><td>0</td><td>×1</td><td>—</td></tr>
+<tr><td>Brown</td><td><span class="sw" style="background:#6d3206;"></span></td><td>1</td><td>1</td><td>1</td><td>×10</td><td><span class="tol" style="background:#f3e5d4;color:#6d3206;">±1% (F)</span></td></tr>
+<tr><td>Red</td><td><span class="sw" style="background:#c62828;"></span></td><td>2</td><td>2</td><td>2</td><td>×100</td><td><span class="tol" style="background:#fce4e4;color:#c62828;">±2% (G)</span></td></tr>
+<tr><td>Orange</td><td><span class="sw" style="background:#e65100;"></span></td><td>3</td><td>3</td><td>3</td><td>×1K</td><td>—</td></tr>
+<tr><td>Yellow</td><td><span class="sw" style="background:#f9c700;border-color:#c9a000;"></span></td><td>4</td><td>4</td><td>4</td><td>×10K</td><td>—</td></tr>
+<tr><td>Green</td><td><span class="sw" style="background:#2e7d32;"></span></td><td>5</td><td>5</td><td>5</td><td>×100K</td><td><span class="tol" style="background:#e8f5e9;color:#2e7d32;">±0.5% (D)</span></td></tr>
+<tr><td>Blue</td><td><span class="sw" style="background:#1565C0;"></span></td><td>6</td><td>6</td><td>6</td><td>×1M</td><td><span class="tol" style="background:#e3f2fd;color:#1565C0;">±0.25% (C)</span></td></tr>
+<tr><td>Violet</td><td><span class="sw" style="background:#6a1b9a;"></span></td><td>7</td><td>7</td><td>7</td><td>×10M</td><td><span class="tol" style="background:#f3e5f5;color:#6a1b9a;">±0.10% (B)</span></td></tr>
+<tr><td>Grey</td><td><span class="sw" style="background:#757575;"></span></td><td>8</td><td>8</td><td>8</td><td>×100M</td><td><span class="tol" style="background:#f5f5f5;color:#424242;">±0.05% (A)</span></td></tr>
+<tr><td>White</td><td><span class="sw" style="background:#f0f0f0;border-color:#ccc;"></span></td><td>9</td><td>9</td><td>9</td><td>×1G</td><td>—</td></tr>
+<tr><td>Gold</td><td><span class="sw" style="background:linear-gradient(135deg,#d4af37,#f0d060);border-color:#b8960c;"></span></td><td>—</td><td>—</td><td>—</td><td>×0.1</td><td><span class="tol" style="background:#fffde7;color:#8b6914;">±5% (J)</span></td></tr>
+<tr><td>Silver</td><td><span class="sw" style="background:linear-gradient(135deg,#9e9e9e,#c8c8c8);border-color:#777;"></span></td><td>—</td><td>—</td><td>—</td><td>×0.01</td><td><span class="tol" style="background:#f5f5f5;color:#555;">±10% (K)</span></td></tr>
+</tbody></table></div></div>
+<div class="sec alt" id="p7b"><div class="sh">📏 4-Band vs 5-Band Resistors</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.2rem;">
+<div class="card" style="border-color:#e65100;">
+<h4 style="color:#e65100;">🔶 4-Band Resistor (Standard)</h4>
+<p style="font-size:.8rem;margin:.4rem 0;">Band 1 = 1st digit | Band 2 = 2nd digit | Band 3 = Multiplier | Band 4 = Tolerance</p>
+<div style="background:#fff3e0;border-radius:6px;padding:.5rem .8rem;font-family:monospace;font-size:.82rem;color:#e65100;font-weight:700;margin-top:.5rem;">Value = (B1×10 + B2) × Multiplier</div>
+<p style="font-size:.76rem;color:var(--mu);margin-top:.5rem;">Example: Red-Red-Brown-Gold = (22)×10 = <strong>220Ω ±5%</strong></p>
+</div>
+<div class="card" style="border-color:#1565C0;">
+<h4 style="color:#1565C0;">🔷 5-Band Resistor (Precision)</h4>
+<p style="font-size:.8rem;margin:.4rem 0;">Band 1 = 1st | Band 2 = 2nd | Band 3 = 3rd digit | Band 4 = Multiplier | Band 5 = Tolerance</p>
+<div style="background:#e3f2fd;border-radius:6px;padding:.5rem .8rem;font-family:monospace;font-size:.82rem;color:#1565C0;font-weight:700;margin-top:.5rem;">Value = (B1×100 + B2×10 + B3) × Multiplier</div>
+<p style="font-size:.76rem;color:var(--mu);margin-top:.5rem;">Example: Brown-Black-Black-Orange-Brown = <strong>100KΩ ±1%</strong></p>
+</div>
+</div>
+<div class="al info">🥇 <div><strong>Reading tip:</strong> Always hold the resistor so Gold or Silver (tolerance) band is on the RIGHT, then read left to right. Memory trick: <strong>BB ROY of Great Britain Very Good Wife</strong> = 0–9 (Black Brown Red Orange Yellow Green Blue Violet Grey White).</div></div>
+</div>
+<div class="sec" id="p7c"><div class="sh">🧮 Worked Examples</div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>Color Bands</th><th>Calculation</th><th>Value</th><th>Common Use</th></tr></thead><tbody><tr><td>Red-Red-Brown-Gold</td><td>(2×10+2)×10 = 22×10</td><td>220 Ω ±5%</td><td>LED current limiting</td></tr><tr><td>Brown-Black-Red-Gold</td><td>(1×10+0)×100 = 10×100</td><td>1,000 Ω = 1 KΩ ±5%</td><td>Pull-up resistor</td></tr><tr><td>Brown-Black-Orange-Gold</td><td>(1×10+0)×1K = 10×1K</td><td>10,000 Ω = 10 KΩ ±5%</td><td>Pull-up/down</td></tr><tr><td>Yellow-Violet-Red-Gold</td><td>(4×10+7)×100 = 47×100</td><td>4,700 Ω = 4.7 KΩ ±5%</td><td>Sensor pull-up</td></tr><tr><td>Yellow-Violet-Brown-Gold</td><td>(4×10+7)×10 = 47×10</td><td>470 Ω ±5%</td><td>Transistor base</td></tr><tr><td>Brown-Black-Black-Orange-Brown</td><td>(1×100+0+0)×1K</td><td>100,000 Ω = 100 KΩ ±1%</td><td>5-band precision</td></tr></tbody></table></div>
+<div class="done">
+<div style="font-size:2.5rem;margin-bottom:.5rem;">🎉</div>
+<h2>Manual <span>Complete!</span></h2>
+<p>All 7 parts of the ANU Electronics Bug in Circuit IoT Kit manual are done.</p>
+<div class="pd-wrap">
+<span class="pd">✅ Part 1 — Kit Overview</span>
+<span class="pd">✅ Part 2 — ESP32 &amp; IDE Setup</span>
+<span class="pd">✅ Part 3 — Circuit Debugging (12 Bugs)</span>
+<span class="pd">✅ Part 4 — IoT Projects 1–6</span>
+<span class="pd">✅ Part 5 — IoT Projects 7–12</span>
+<span class="pd">✅ Part 6 — ThingSpeak Cloud IoT</span>
+<span class="pd">✅ Part 7 — Resistor Color Coding</span>
+</div>
+</div>
+</div></div>
+<footer><p style="font-size:1.2rem;margin-bottom:.3rem;">🐛</p>
+<p><strong>ANU Electronics — Bug in Circuit IoT Kit</strong></p>
+<p style="margin-top:.25rem;">Complete Digital Manual · 7 Parts · 12 IoT Projects · 12 PCB Bugs</p>
+<p style="margin-top:.6rem;font-size:.72rem;opacity:.4;">ESP32 · Arduino IDE · ThingSpeak · Resistor Color Coding</p></footer>
+</div>
+<script>
+document.querySelectorAll('.npt').forEach(a=>{
+  a.addEventListener('click',function(){
+    const p=this.closest('.np'),w=p.classList.contains('open');
+    document.querySelectorAll('.np').forEach(x=>x.classList.remove('open'));
+    if(!w)p.classList.add('open');
+  });
+});
+const io=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){const id=x.target.id;document.querySelectorAll('.npt').forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));}});},{threshold:0.08});
+document.querySelectorAll('div[id^="p"]').forEach(s=>io.observe(s));
+</script>
+</body>
+</html>
